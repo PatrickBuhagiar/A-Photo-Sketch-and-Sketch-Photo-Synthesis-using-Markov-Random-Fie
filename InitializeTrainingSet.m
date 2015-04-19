@@ -1,9 +1,9 @@
-function Patches = InitializeTrainingSet(train_sketch_path, sketch_list, model_path, n_sketches, patch_size, overlap_size),
+function [Patches, warped_images]= InitializeTrainingSet(train_sketch_path, sketch_list, model_path, n_sketches, patch_size, overlap_size)
 
 %% Initialisation
 load([model_path 'AOM_MultiPIE_InTheWild']);
 Patches = cell(1,n_sketches);
-
+warped_images = cell(1,n_sketches);
 %% Iterate Images
 
 for i = 1:n_sketches,
@@ -34,9 +34,10 @@ for i = 1:n_sketches,
     
     %Warp image
     [warped_img] = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, I, param.AAM.interpolation);
+    warped_images{i} =SubSample(warped_img,67,67); %warped_img;%
     %figure;imshow(warped_img);
     %create patches (DEFINE PATCH SIZE AND OVERLAP SIZE HERE)
-    Patches{1,i} = patches(warped_img, patch_size, overlap_size);
+    Patches{1,i} = patches(warped_images{i}, patch_size, overlap_size);
    
 end
 

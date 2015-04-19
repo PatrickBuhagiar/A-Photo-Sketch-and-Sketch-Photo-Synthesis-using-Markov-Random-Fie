@@ -1,4 +1,4 @@
-function phi_patches = Calculate_phi(input_patches, candidate_patches, sigma)
+function phi_patches = Calculate_phi(input_patches, candidate_patches, sigma, K)
 %input patches: Cell array (x,y, n_patches)
 %candidate_patches: 4D array (x,y,K_candidates, n_patches)
 %sigma: standard deviation
@@ -7,5 +7,5 @@ function phi_patches = Calculate_phi(input_patches, candidate_patches, sigma)
 n_patches = size(candidate_patches,4);
 phi_patches = zeros(size(candidate_patches,3),n_patches);
 for i=1:n_patches,
-    phi_patches(:,i) = phi(input_patches{1}(:,:,i), candidate_patches(:,:,:,i), sigma);     
+    phi_patches(:,i) = phi(input_patches(:,:,i), candidate_patches(:,:,:,i), sigma, K);     
 end

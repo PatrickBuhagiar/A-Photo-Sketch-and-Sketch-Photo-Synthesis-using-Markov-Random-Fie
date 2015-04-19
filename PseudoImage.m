@@ -1,4 +1,4 @@
-function imOut = PseudoImage(imIn, Training_sketches, Training_Photo_Patches)
+function imOut = PseudoImage(imIn, Training_sketches, Training_Photo_Patches, K)
 
 % imIn : Input Image divided into patches 
 % imTraining : Training Sketches divided into patches
@@ -12,17 +12,18 @@ candidates = true;
 %obtain number of patches
 if (~candidates)
     TotalImages = length(Training_sketches);
-    TotalPatches = size(imIn{1},3);
+    TotalPatches = size(imIn,3);
     PatchMatches = zeros(1,TotalPatches); %indexes of closest image patches
 
     %Iterate all Patches of input image
     for i=1:TotalPatches,
-        ReferencePatch = imIn{1}(:,:,i);
+        ReferencePatch = imIn(:,:,i);
 
         PatchScores = zeros(1, TotalImages);
         for j=1:TotalImages,  
             %Use SSIM that returns ordered list.
-            PatchScores(j) = ssim(Training_sketches{j}(:,:,i), ReferencePatch);
+            PatchScores(j) = ssim(Training_sketches{j}(:,:,i), ReferencePatch); %sum(sum(sqrt((Training_sketches{j}(:,:,i) - ReferencePatch).^2)));
+            %aa = ssim(Training_sketches{j}(:,:,i), ReferencePatch);
         end
         [HighestScore, I] = max(PatchScores);
         PatchMatches(i) = I;
@@ -30,7 +31,7 @@ if (~candidates)
 
     %group nearest patches
 
-    NearestPatches = zeros(size(imIn{1},1), size(imIn{1},2), TotalPatches);
+    NearestPatches = zeros(size(imIn,1), size(imIn,2), TotalPatches);
 
     for i=1: TotalPatches,
         j = PatchMatches(i);
@@ -42,18 +43,20 @@ if (~candidates)
 %% Score nearest candidate patches only
 else
     TotalImages = length(Training_sketches);
-    TotalPatches = size(imIn{1},3);
-    K = 5; %number of candidates
+    TotalPatches = size(imIn,3);
+    %K = 5; %number of candidates
     K_Candidates_sketches_indexes = zeros(K,TotalPatches); %indexes of closest image patches
 
     %Iterate all Patches of input image
     for i=1:TotalPatches,
-        ReferencePatch = imIn{1}(:,:,i);
+        ReferencePatch = imIn(:,:,i);
 
         PatchScores = zeros(1, TotalImages);
         for j=1:TotalImages,  
             %Use SSIM that returns ordered list.
-            PatchScores(j) = ssim(Training_sketches{j}(:,:,i), ReferencePatch);
+            
+            PatchScores(j) = ssim(Training_sketches{j}(:,:,i), ReferencePatch);% sum(sum(sqrt((Training_sketches{j}(:,:,i) - ReferencePatch).^2)));
+            %aa =ssim(Training_sketches{j}(:,:,i), ReferencePatch);
         end
         [scores, indexes] = sort(PatchScores, 'descend');
         temp = indexes(1:K); %take top K
@@ -62,7 +65,7 @@ else
 
     %group nearest patches
     %K_Candidates_photos(x,y,K,n_patches). x and y are patch sizes
-    K_Candidates_photos = zeros(size(imIn{1},1), size(imIn{1},2), K, TotalPatches);
+    K_Candidates_photos = zeros(size(imIn,1), size(imIn,2), K, TotalPatches);
 
     for i=1: TotalPatches,
         k = K_Candidates_sketches_indexes(:,i);
