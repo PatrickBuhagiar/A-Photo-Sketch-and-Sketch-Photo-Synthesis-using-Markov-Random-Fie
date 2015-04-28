@@ -35,8 +35,8 @@ for i = 1:n_images,
     
     %Warp image
     [warped_img] = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, Train_In, param.AAM.interpolation);
-    Training_Sketches{i} = SubSample(warped_img,67,67);
-    figure;imshow(Training_Sketches{i});
+    Training_Sketches{i} = SubSample(warped_img,67, 67);
+    %figure;imshow(Training_Sketches{i});
     
     %% Read photo
     filename = strcat(train_photo_path, image_list(i).name);
@@ -64,12 +64,14 @@ for i = 1:n_images,
     
     %Warp image
     [warped_img] = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, Train_Out, param.AAM.interpolation);
-    Training_Photos{i} = SubSample(warped_img,67,67);
-    figure;imshow(Training_Photos{i});
+    Training_Photos{i} = SubSample(warped_img,67, 67);
+    %figure;imshow(Training_Photos{i});
     
     
     %% create patches (DEFINE PATCH SIZE AND OVERLAP SIZE HERE)
-    [Training_Sketch_patches, Training_Photo_patches] = patches_search_Patch(patch_size, overlap_size,Training_Sketches{i}, Training_Photos{i}, Input_Patches);
+    
+    
+    [Training_Sketch_patches, Training_Photo_patches] = patches_search_Patch(patch_size, overlap_size, Training_Sketches{i}, Training_Photos{i}, Input_Patches{i});
     Training_Sketch_Patches{i} = Training_Sketch_patches;
     Training_Photo_Patches{i} = Training_Photo_patches;
 

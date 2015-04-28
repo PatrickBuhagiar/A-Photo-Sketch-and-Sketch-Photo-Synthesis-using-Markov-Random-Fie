@@ -1,9 +1,9 @@
 %clc; close all; clear all;
 
 sigma = 1;
-patch_size = 20;
+patch_size = 10;
 overlap_size = 5;
-K_candidates = 10;
+K_candidates = 3;
 full_image_size = [168 163];
 
 %% acquire TrainingSketches path

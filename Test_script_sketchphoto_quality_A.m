@@ -17,9 +17,9 @@
 
 %% Parameters
 sigma = 1;
-patch_sizes = [10;5];
-K_candidates = [1 2 3 4 5 6 7 8 9 10];
-full_image_size = [67 67];
+patch_sizes = [20;10];
+K_candidates = [3];
+full_image_size = [163 163];
 
 %Load Model for warp fit
 addpath('\01_functions\');
@@ -49,7 +49,7 @@ n_photo_input = size(input__photo_list, 1);
 
 %% Loops
 [n_ol,n_ps] = size(patch_sizes);
- mkdir('Candidate_check');
+ mkdir('No_search_path');
 
 for ps = 1:n_ps,
     patch_size = patch_sizes(1,ps);
@@ -104,10 +104,10 @@ for ps = 1:n_ps,
                 I_A = GeneratePsuedoPhoto(final_patches_A, full_image_size, overlap_size);
                 I_B = GeneratePsuedoPhoto(final_patches_B, full_image_size, overlap_size);
                 %figure; imshow(I_A); figure; imshow(I_B);
-                mkdir(['images_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) ]);
-                mkdir(['images_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) ]);
-                I_A_file = ['images_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) '\I_A_'  num2str(t_i) '.jpg'];
-                I_B_file = ['images_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) '\I_B_'  num2str(t_i) '.jpg'];
+                mkdir(['No_search_path_images_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) ]);
+                mkdir(['No_search_path_images_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) ]);
+                I_A_file = ['No_search_path_images_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) '\I_A_'  num2str(t_i) '.jpg'];
+                I_B_file = ['No_search_path_images_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) '\I_B_'  num2str(t_i) '.jpg'];
                 imwrite(I_A, I_A_file);
                 imwrite(I_B, I_B_file);
                 
@@ -138,10 +138,10 @@ for ps = 1:n_ps,
                 fclose(fileID);
             end
             %% csv write
-            ssim_A_file = ['Candidate_check\ssimcomp_ssim_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_A_'  num2str(t_i) '.csv'];
-            ssim_B_file = ['Candidate_check\ssimcomp_ssim_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_B_'  num2str(t_i) '.csv'];
-            psnr_A_file = ['Candidate_check\ssimcomp_psnr_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_A_'  num2str(t_i) '.csv'];
-            psnr_B_file = ['Candidate_check\ssimcomp_psnr_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_B_'  num2str(t_i) '.csv'];
+            ssim_A_file = ['No_search_path\ssimcomp_ssim_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_A_'  num2str(t_i) '.csv'];
+            ssim_B_file = ['No_search_path\ssimcomp_ssim_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_B_'  num2str(t_i) '.csv'];
+            psnr_A_file = ['No_search_path\ssimcomp_psnr_A_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_A_'  num2str(t_i) '.csv'];
+            psnr_B_file = ['No_search_path\ssimcomp_psnr_B_' num2str(patch_size) '_' num2str(overlap_size) '_' num2str(K) 'I_B_'  num2str(t_i) '.csv'];
             csvwrite(ssim_A_file, ssim_A);
             csvwrite(ssim_B_file, ssim_B);
             csvwrite(psnr_A_file, psnr_A);
