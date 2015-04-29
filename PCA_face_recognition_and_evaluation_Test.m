@@ -14,7 +14,7 @@ train_data = [];
 test_data = [];
 cont = 1;
 
-train_path = 'training1\';
+train_path = 'training\';
 train_list =  dir([train_path '*jpg']);
 n_train = size(train_list, 1);
 
@@ -51,12 +51,7 @@ load([model_path 'AOM_MultiPIE_InTheWild']);
        train_data = [train_data,X(:)];
        ids_train = [ids_train, i];
    end
-% catch
-%    proceed = 0;
-%    disp(sprintf('Could not load images from the ORL database. Did you unpack it into \nthe appropriate directory? If NOT please follow the instructions \nin the user manual or the provided install script. Ending demo prematurely.'));
-% end
-
-%try
+   
    for j=1:n_test
        j
        filename = strcat(test_path, test_list(j).name);
@@ -65,28 +60,9 @@ load([model_path 'AOM_MultiPIE_InTheWild']);
        test_data = [test_data,X(:)];
        ids_test = [ids_test, j];
    end
-%catch
- %  proceed = 0;
- %  disp(sprintf('Could not load images from the ORL database. Did you unpack it into \nthe appropriate directory? If NOT please follow the instructions \nin the user manual or the provided install script. Ending demo prematurely.'));
-%end
 
 [size_y,size_x] = size(X);  
 
-% try
-%     % construct image string and load image
-%     for i=1:40
-%         for j=1:10
-%             s = sprintf('database/s%i/%i.pgm',i,j);
-%             X=double(imread(s));
-%             data_matrix = [data_matrix,X(:)];
-%             ids = [ids;i];
-%         end
-%     end
-%     [size_y,size_x] = size(X);    
-% catch
-%    proceed = 0;
-%    disp(sprintf('Could not load images from the ORL database. Did you unpack it into \nthe appropriate directory? If NOT please follow the instructions \nin the user manual or the provided install script. Ending demo prematurely.'));
-% end
 
 if(proceed)
     disp('Finished with Step 1 (database loading).')
@@ -100,24 +76,6 @@ if(proceed)
     disp('of each ORL subject will serve as the training/gallery/target set and the remaining')
     disp('images will serve as test/evaluation/query images.')
 
-%     
-%     for i=1:40
-%         for j=1:10
-%             if j<4
-%                 train_data = [train_data,data_matrix(:,cont)];
-%                 ids_train  = [ids_train, ids(cont)];
-%             else
-%                 test_data = [test_data,data_matrix(:,cont)];
-%                 ids_test  = [ids_test,ids(cont)];
-%             end
-%             cont = cont + 1;
-%         end 
-%     end
-    %disp('Finished with Step 2 (data partitioning).')
-    %disp('Press any key to continue ...')
-    %pause();
-
-
 	%% Construct PCA subspace
     disp(' ')
     disp('Step 3:')
@@ -129,11 +87,7 @@ if(proceed)
     
     disp('Finished PCA subspace construction. Starting test image projection.')
     test_features = linear_subspace_projection_PhD(test_data, model, 1);
-    disp('Finished with Step 3 (feature extraction).')
-    disp('Press any key to continue ...')
-    pause();
-    
-    
+    disp('Finished with Step 3 (feature extraction).')   
     
     %% Compute similarity matrix
     disp(' ')
@@ -143,19 +97,12 @@ if(proceed)
     disp('measure for that.')
     results = nn_classification_PhD(model.train, ids_train, test_features, ids_test, size(test_features,1), 'mahcos');
     disp('Finished with Step 4 (matching).')
-    disp('Press any key to continue ...')
-    pause();
-    
-    
+  
     %% Evaluate similarity matrix
     disp(' ')
     disp('Step 5:')
     disp('Evaluate results and present performance metrics.')
     output = evaluate_results_PhD(results,'image');
-    %figure(1)
-    %plot_ROC_PhD(output.ROC_ver_rate, output.ROC_miss_rate,'r',2);
-    %title('ROC curve for the PCA+MAHCOS technique on the ORL database.')
-    %legend('PCA+MAHCOS')
     figure(1)
     plot_CMC_PhD(output.CMC_rec_rates , output.CMC_ranks,'r',2);
     legend('PCA+MAHCOS')

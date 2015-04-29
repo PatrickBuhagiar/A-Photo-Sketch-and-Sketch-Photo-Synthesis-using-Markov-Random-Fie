@@ -1,12 +1,12 @@
-train_path = 'training\';
+train_path = '..\02_data\New_CUHK_Training_Photos\';
 train_list =  dir([train_path '*jpg']);
 n_images = size(train_list, 1);
 
 model_path = '..\02_data\02_Multi-PIE\01_AOMs\';
 load([model_path 'AOM_MultiPIE_InTheWild']);
 
-mkdir('warped_images');
-mkdir('real_images');
+mkdir('photos_warped_images3');
+mkdir('photos_real_images3');
 
 for j=1:n_images
        j
@@ -26,9 +26,9 @@ for j=1:n_images
 
        %Warp image
        warped_img = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, X, param.AAM.interpolation);
-       write = ['warped_images\image_'  num2str(j) '.jpg'];
+       write = ['photos_warped_images3\image_'  num2str(100+j) '.jpg'];
        imwrite(warped_img, write);
-       write = ['real_images\image_'  num2str(j) '.jpg'];
+       write = ['photos_real_images3\image_'  num2str(100+j) '.jpg'];
        imwrite(X, write);
 
 end

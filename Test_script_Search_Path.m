@@ -17,9 +17,9 @@
 
 %% Parameters
 sigma = 1;
-patch_sizes = [5;2];
-K_candidates = [3];
-full_image_size = [67 67];
+patch_sizes = [20;10];
+K_candidates = [5];
+full_image_size = [160 160];
 
 %Load Model for warp fit
 addpath('\01_functions\');
