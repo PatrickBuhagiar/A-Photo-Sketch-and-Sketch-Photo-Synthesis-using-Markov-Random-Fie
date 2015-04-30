@@ -17,7 +17,7 @@
 
 %% Parameters
 sigma = 1;
-patch_sizes = [20;10];
+patch_sizes = [20 15 10 5;10 7 5 2];
 K_candidates = [5];
 full_image_size = [160 160];
 
@@ -79,7 +79,7 @@ for ps = 1:n_ps,
             psnr_A = zeros(1, n_photo_input);
             psnr_B = zeros(1, n_photo_input);
             for t_i=1:n_photo_input, %for each training image
-                t_i
+                
                 %% Obtain best matches
                 disp('Obtaining best matches.');
                 candidate_patches_A = PseudoImage(Testing_Sketch_Patches{t_i}, Training_Sketch_Patches, Training_Photo_Patches, K);

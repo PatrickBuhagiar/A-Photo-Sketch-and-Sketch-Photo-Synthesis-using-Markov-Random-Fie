@@ -23,7 +23,7 @@ function varargout = human_recognition_test(varargin)
 
 % Edit the above text to modify the response to help human_recognition_test
 
-% Last Modified by GUIDE v2.5 27-Apr-2015 23:34:52
+% Last Modified by GUIDE v2.5 30-Apr-2015 08:10:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,11 +62,11 @@ handles.output = hObject;
 guidata(hObject, handles);
 
 
-image_path = 'training\';
+image_path = 'testing\';
 image_list =  dir([image_path '*jpg']);
 n_images = size(image_list, 1);
 
-warped_image_path = 'warped_images\';
+warped_image_path = 'warped_images3\';
 warp_list = dir([warped_image_path '*jpg']);
 
 
@@ -211,5 +211,3 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-

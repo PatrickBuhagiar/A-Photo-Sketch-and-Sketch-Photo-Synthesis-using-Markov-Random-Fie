@@ -35,7 +35,7 @@ for i = 1:n_images,
     
     %Warp image
     [warped_img] = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, Train_In, param.AAM.interpolation);
-    Training_Sketches{i} = SubSample(warped_img,67, 67);
+    Training_Sketches{i} = SubSample(warped_img,160, 160);
     %figure;imshow(Training_Sketches{i});
     
     %% Read photo
@@ -64,7 +64,7 @@ for i = 1:n_images,
     
     %Warp image
     [warped_img] = warpImage(AAM.shape_mean_scaled{level}, AAM.texture_base{level}, AAM.triangles, AAM.resolution{level}, current_shape2, Train_Out, param.AAM.interpolation);
-    Training_Photos{i} = SubSample(warped_img,67, 67);
+    Training_Photos{i} = SubSample(warped_img,160, 160);
     %figure;imshow(Training_Photos{i});
     
     
