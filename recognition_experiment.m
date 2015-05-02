@@ -1,4 +1,3 @@
-
 function varargout = recognition_experiment(varargin)
 % RECOGNITION_EXPERIMENT MATLAB code for recognition_experiment.fig
 %      RECOGNITION_EXPERIMENT, by itself, creates a new RECOGNITION_EXPERIMENT or raises the existing
@@ -46,7 +45,7 @@ end
 
 
 % --- Executes just before recognition_experiment is made visible.
-function recognition_experiment_OpeningFcn(hObject, eventdata, handles, varargin)
+function recognitio n_experiment_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -77,6 +76,7 @@ global sketch_data; %proper sketches
 sketch_data = cell(n_images);
 
 global counter;
+counter = 1;
 
 global score; 
 
@@ -84,9 +84,11 @@ global score;
 global correct;
 correct = randi(8,1,40);
 if (counter ~=1)
-    s = ['The final score is: ' num2str(score)]
+    s = ['The final score is: ' num2str(score)];
+    disp(s);
+    clear;
 else
-    counter = 1;
+    
     score = 0;
     for j=1:100
            j
